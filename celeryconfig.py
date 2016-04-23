@@ -1,0 +1,2 @@
+CELERY_TIMEZONE='Asia/Shanghai'
+CELERY_ENABLE_UTC=True
