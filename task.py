@@ -1,7 +1,7 @@
 from celery import Celery
 import subprocess as sb
 
-app = Celery('tasks', broker='amqp://guest@serveric:32771//')
+app = Celery('task',backend='redis://serveric:32774/5',broker='amqp://guest@serveric:32771//')
 
 app.config_from_object('celeryconfig')
 
