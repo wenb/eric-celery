@@ -10,4 +10,6 @@ parser.add_option("-p","--paramater",dest="paramater",
 
 command = option.paramater
 
-run_command.delay(command)
+result = run_command.delay(command)
+#print result.get(timeout=1)
+print result.state
