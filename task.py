@@ -8,7 +8,7 @@ app.config_from_object('celeryconfig')
 
 @app.task
 def run_command(command):
-	p = sb.Popen(command,stdin=sb.PIPE,stdout=sb.PIPE,shell=True)
+	p = sb.Popen(command,stdin=sb.PIPE,stdout=sb.PIPE,stderr=sb.PIPE,shell=True)
 	out = p.stdout.readlines()
 	for line in out:
 		print line.strip()
