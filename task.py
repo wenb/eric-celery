@@ -4,8 +4,8 @@ import subprocess as sb
 
 app = Celery(
     'task',
-    backend='redis://serveric:32774/5',
-    broker='amqp://guest@serveric:32771//')
+    backend='redis://serveric:32782/5',
+    broker='amqp://guest@serveric:32778//')
 
 app.config_from_object('celeryconfig')
 
