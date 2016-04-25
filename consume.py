@@ -11,7 +11,7 @@ class Usage(Exception):
 
 
 def print_lines(out_put):
-    for line in out_put[0:len(out_put)-1]:
+    for line in out_put[0:len(out_put) - 1]:
         print line.strip()
 
 
