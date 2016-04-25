@@ -18,7 +18,9 @@ def run_command(command):
         stdout=sb.PIPE,
         stderr=sb.PIPE,
         shell=True)
+    p.wait()
     out = p.stdout.readlines()
     for line in out:
         print line.strip()
+    out.append(str(p.returncode))
     return out
