@@ -30,7 +30,6 @@ def main():
         (option, args) = parser.parse_args()
         command = option.parameter
         Out_put = run_command.delay(command)
-#        print Out_put.state
         print_lines(Out_put.get(timeout=100))
     except OptionParser.error, msg:
         raise Usage(msg)
