@@ -1,6 +1,10 @@
 from celery import Celery
 from celery.signals import task_success
-import subprocess as sb
+# from celery.execute import send_task
+import sys
+
+local_coding = sys.stdout.encoding
+assert local_coding
 
 app = Celery(
     'task')
@@ -10,12 +14,8 @@ app.config_from_object('celeryconfig')
 
 @app.task
 def run_command(command):
-    p = sb.Popen(
-        command,
-        stdin=sb.PIPE,
-        stdout=sb.PIPE,
-        stderr=sb.PIPE,
-        shell=True)
+    kwargs = {'shell': True, 'stdout': PIPE, 'stderr': PIPE, 'stderr':PIPE,'env': environ}
+    p = Popen(command.encoding(local_coding),**kwargs)
     p.wait()
     out = p.stdout.readlines()
     for line in out:
@@ -33,6 +33,4 @@ def error_handler(self, uuid):
 
 @task_success.connect()
 def handler_task_success(send=None, result=None, **kwargs):
-    print('task_success for result {result}'.format(
-        result=result,
-    ))
+    send_task()

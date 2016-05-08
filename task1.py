@@ -7,9 +7,8 @@ import socket
 import psutil
 import platform
 from subprocess import Popen, PIPE
-
-from celery import Celery
 from celery.execute import send_task
+from celery.app.base import Celery
 from celery.utils.log import get_task_logger
 from celery.utils.dispatch import Signal
 from celery.signals import task_success, task_failure, worker_ready

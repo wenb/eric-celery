@@ -7,6 +7,7 @@ from optparse import OptionParser
 class Usage(Exception):
     """docstring for Usage"""
     def __init__(self, msg):
+        assert isinstance(msg, object)
         self.msg = msg
 
 
@@ -29,8 +30,8 @@ def main():
             default="echo \"hello world\"")
         (option, args) = parser.parse_args()
         command = option.parameter
-        Out_put = run_command.delay(command)
-        print_lines(Out_put.get(timeout=100))
+        out_put = run_command.delay(command)
+        print_lines(out_put.get(timeout=100))
     except OptionParser.error, msg:
         raise Usage(msg)
         return 2
