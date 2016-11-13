@@ -1,4 +1,4 @@
-# encoding=utf8
+# _*_coding_*_ = utf-8
 import sys
 from task import run_command
 from optparse import OptionParser
