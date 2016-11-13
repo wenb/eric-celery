@@ -19,7 +19,6 @@ app.config_from_object('celeryconfig')
 
 @app.task
 def run_command(command):
-    print type(command)
     kwargs = {'shell': True, 'stdout': PIPE, 'stderr': PIPE, 'stderr':PIPE,'env': environ}
     p = Popen(command, **kwargs)
     p.wait()
