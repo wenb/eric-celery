@@ -1,10 +1,11 @@
 # _*_coding_*_ = utf-8
+from __future__ import unicode_literals
 from celery import Celery
 from celery.signals import task_success
 # from celery.execute import send_task
-import sys
-import os
 from subprocess import *
+import os
+import sys
 
 environ = os.environ.copy()
 local_coding = sys.stdout.encoding
@@ -20,8 +21,7 @@ app.config_from_object('celeryconfig')
 def run_command(command):
     print type(command)
     kwargs = {'shell': True, 'stdout': PIPE, 'stderr': PIPE, 'stderr':PIPE,'env': environ}
-    # p = Popen(command.decode("utf-8").encoding(local_coding), **kwargs)
-    p = Popen(command.decode("utf-8").encoding(local_coding), **kwargs)
+    p = Popen(command, **kwargs)
     p.wait()
     out = p.stdout.readlines()
     for line in out:
