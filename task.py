@@ -6,6 +6,7 @@ from celery.signals import task_success
 from subprocess import *
 import os
 import sys
+import logging
 
 environ = os.environ.copy()
 local_coding = sys.stdout.encoding
@@ -19,13 +20,14 @@ app.config_from_object('celeryconfig')
 
 @app.task
 def run_command(command):
-    kwargs = {'shell': True, 'stdout': PIPE, 'stderr': PIPE, 'stderr':PIPE,'env': environ}
+    kwargs = {'shell': True, 'stdout': PIPE, 'stderr': PIPE, 'stderr': PIPE, 'env': environ}
     p = Popen(command, **kwargs)
     p.wait()
     out = p.stdout.readlines()
     for line in out:
         print line.strip()
     out.append(str(p.returncode))
+    logging.info(str(p.returncode))
     return out
 
 
