@@ -12,8 +12,7 @@ environ = os.environ.copy()
 local_coding = sys.stdout.encoding
 assert local_coding
 
-app = Celery(
-    'task')
+app = Celery('task')
 
 app.config_from_object('celeryconfig')
 

@@ -7,6 +7,7 @@ CELERY_ACCEPT_CONTENT = ['json']
 BROKER_URL = 'amqp://admin:123456@serveric:5672//'
 CELERY_RESULT_BACKEND = 'redis://serveric:6379/0'
 BROKER_HEARTBEAT_CHECKRATE = '60s'
+CELERY_TASK_RESULT_EXPIRES = 60 * 60 * 24
 
 # Enables error emails.
 # CELERY_SEND_TASK_ERROR_EMAILS = True
