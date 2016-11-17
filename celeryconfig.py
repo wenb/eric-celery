@@ -1,4 +1,9 @@
-# _*_coding_*_ = utf-8p
+# _*_coding_*_ = utf-8
+from consts import DB_URI
+
+DEBUG = True
+SQLALCHEMY_DATABASE_URI = DB_URI
+SQLALCHEMY_TRACK_MODIFICATIONS = False
 CELERY_TIMEZONE = 'Asia/Shanghai'
 CELERY_ENABLE_UTC = True
 CELERY_TASK_SERIALIZER = 'json'
