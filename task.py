@@ -25,7 +25,7 @@ def run_command(command):
     out = p.stdout.readlines()
     for line in out:
         print line.strip()
-    out.append(str(p.returncode))
+    # out.append(str(p.returncode))
     logging.info(str(p.returncode))
     return out
 
