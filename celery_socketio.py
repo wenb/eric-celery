@@ -5,14 +5,16 @@ from flask_socketio import SocketIO
 import eventlet
 from celery import Celery
 from celery.signals import task_success
+from celery.result import AsyncResult
 # from celery.execute import send_task
 from subprocess import *
 import os
 import sys
 import logging
 import time
-from ext import db
+from ext import *
 from model import Command
+import json
 
 environ = os.environ.copy()
 local_coding = sys.stdout.encoding
@@ -67,7 +69,7 @@ def celery_run_command(command):
     out = p.stdout.readlines()
     for line in out:
         print line.strip()
-    out.append(str(p.returncode))
+    # out.append(str(p.returncode))
     logging.info(str(p.returncode))
     return out
 
@@ -104,16 +106,13 @@ def start_background_task():
 @app.route('/command')
 def run_command(command="ls"):
     output = celery_run_command.delay(command)
-    icommand = Command(command,output)
-    db.session.add(icommand)
-    db.session.commit()
+    response = AsyncResult(output.task_id).get()
+    json_output = json.dumps(response)
+    # icommand = Command(command, response, output.status)
+    # db.session.add(icommand)
+    # db.session.commit()
     logging.info(str(output))
-    return "ok"
-
-
-def print_lines(out_put):
-    for line in out_put[0:len(out_put) - 1]:
-        print line.strip()
+    return json_output
 
 
 if __name__ == '__main__':
