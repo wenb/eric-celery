@@ -1,6 +1,6 @@
 # coding=utf-8
 from __future__ import unicode_literals
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_socketio import SocketIO
 import eventlet
 from celery import Celery
@@ -103,16 +103,24 @@ def start_background_task():
     return 'Started'
 
 
-@app.route('/command')
+@app.route('/command', methods=['GET','POST'])
 def run_command(command="ls"):
-    output = celery_run_command.delay(command)
-    response = AsyncResult(output.task_id).get()
-    json_output = json.dumps(response)
-    # icommand = Command(command, response, output.status)
-    # db.session.add(icommand)
-    # db.session.commit()
+    if request.method == 'POST':
+        cmd = request.form['command']
+        output = celery_run_command.delay(cmd)
+        response = AsyncResult(output.task_id).get()
+        str_response = ",".join(response)
+        json_output = json.dumps(response)
+    else:
+        output = celery_run_command.delay(command)
+        response = AsyncResult(output.task_id).get()
+        str_response = ",".join(response)
+        json_output = json.dumps(response)
+    icommand = Command(command, str_response, output.status)
+    db.session.add(icommand)
+    db.session.commit()
     logging.info(str(output))
-    return json_output
+    return json_output,201
 
 
 if __name__ == '__main__':
